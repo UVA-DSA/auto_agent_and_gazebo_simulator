@@ -4,9 +4,9 @@ Todo: more description
 A lab projcet of the surgical robots -- Raven II. Autonomous agent for picking up an object and transferring it to a container. A gazebo simulator. This pipeline works without the real robot device.
 Moveit! is used.
 
-## image_analysis
+## auto_agent/image_analysis
 for image processing
-## pc_analysis
+## auto_agent/pc_analysis
 for analysis of point cloud data from a 3D camera
 
 # raven_2arm
