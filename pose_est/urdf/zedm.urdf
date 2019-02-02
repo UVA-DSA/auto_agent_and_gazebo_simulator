@@ -1,0 +1,152 @@
+<?xml version="1.0"?>
+<!--
+Yongming
+2019/01/31
+-->
+<robot name="vritual_zedm">
+
+    <gazebo reference="zed_camera_center">
+        <sensor type="multicamera" name="stereo_camera">
+            <update_rate>30.0</update_rate>
+            <camera name="left">
+                <pose>0 0.03 0 0 0 0</pose>
+                <horizontal_fov>1.3962634</horizontal_fov>
+                <image>
+                    <width>800</width>
+                    <height>400</height>
+                    <format>R8G8B8</format>
+                </image>
+                <clip>
+                    <near>0.02</near>
+                    <far>1</far>
+                </clip>
+                <noise>
+                    <type>gaussian</type>
+                    <mean>0.0</mean>
+                    <stddev>0.007</stddev>
+                </noise>
+            </camera>
+            <camera name="right">
+                <pose>0 -0.03 0 0 0 0</pose>
+                <horizontal_fov>1.3962634</horizontal_fov>
+                <image>
+                    <width>800</width>
+                    <height>400</height>
+                    <format>R8G8B8</format>
+                </image>
+                <clip>
+                    <near>0.02</near>
+                    <far>1</far>
+                </clip>
+                <noise>
+                    <type>gaussian</type>
+                    <mean>0.0</mean>
+                    <stddev>0.007</stddev>
+                </noise>
+            </camera>
+            <plugin name="stereo_camera_controller" filename="libgazebo_ros_multicamera.so">
+                <alwaysOn>true</alwaysOn>
+                <updateRate>10.0</updateRate>
+                <cameraName>vritual_zedm</cameraName>
+                <imageTopicName>image_raw</imageTopicName>
+                <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+                <frameName>left_camera_optical_frame</frameName>
+                <!--<rightFrameName>right_camera_optical_frame</rightFrameName>-->
+                <hackBaseline>0.07</hackBaseline>
+                <distortionK1>0.0</distortionK1>
+                <distortionK2>0.0</distortionK2>
+                <distortionK3>0.0</distortionK3>
+                <distortionT1>0.0</distortionT1>
+                <distortionT2>0.0</distortionT2>
+            </plugin>
+        </sensor>
+    </gazebo>
+
+
+
+    <!-- Used for fixing robot to Gazebo 'base_link' -->
+    <link name="world"/>
+
+    <joint name="camera_center" type="fixed">
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <parent link="world"/>
+        <child link="zed_camera_center"/>
+    </joint>
+
+    <!-- Camera Center -->
+    <link name="zed_camera_center">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://pose_est/urdf/zedm.dae" />
+            </geometry>
+        </visual>
+        <inertial>
+            <mass value="0.25"/>
+            <inertia ixx="0.0416666666667" ixy="0.0" ixz="0.0" iyy="0.0416666666667" iyz="0.0" izz="0.0416666666667"/>
+        </inertial>
+    </link>
+
+    <!-- Left Camera -->
+
+    <joint name="zed_left_camera_joint" type="fixed">
+        <parent link="zed_camera_center"/>
+        <child link="zed_left_camera_frame"/>
+        <origin xyz="0 0.03 0" rpy="0 0 0" />
+    </joint>
+    <link name="zed_left_camera_frame">
+        <inertial>
+            <mass value="0.25"/>
+            <inertia ixx="0.0416666666667" ixy="0.0" ixz="0.0" iyy="0.0416666666667" iyz="0.0" izz="0.0416666666667"/>
+        </inertial>
+    </link>
+
+    <joint name="zed_left_camera_optical_joint" type="fixed">
+        <origin xyz="0 0 0" rpy="-1.57079632679 0.0 -1.57079632679"/>
+        <parent link="zed_left_camera_frame"/>
+        <child link="zed_left_camera_optical_frame"/>
+    </joint>
+    <link name="zed_left_camera_optical_frame">
+        <inertial>
+            <mass value="0.25"/>
+            <inertia ixx="0.0416666666667" ixy="0.0" ixz="0.0" iyy="0.0416666666667" iyz="0.0" izz="0.0416666666667"/>
+        </inertial>
+    </link>
+
+    <!-- Right Camera -->
+
+    <joint name="zed_right_camera_joint" type="fixed">
+        <parent link="zed_camera_center"/>
+        <child link="zed_right_camera_frame"/>
+        <origin xyz="0 -0.03 0" rpy="0 0 0" />
+    </joint>
+    <link name="zed_right_camera_frame" />
+
+    <joint name="zed_right_camera_optical_joint" type="fixed">
+        <origin xyz="0 0 0" rpy="-1.57079632679 0.0 -1.57079632679"/>
+        <parent link="zed_right_camera_frame"/>
+        <child link="zed_right_camera_optical_frame"/>
+    </joint>
+    <link name="zed_right_camera_optical_frame">
+        <inertial>
+            <mass value="0.25"/>
+            <inertia ixx="0.0416666666667" ixy="0.0" ixz="0.0" iyy="0.0416666666667" iyz="0.0" izz="0.0416666666667"/>
+        </inertial>
+    </link>
+
+    <!-- IMU -->
+
+    <joint name="imu_link_joint" type="floating">
+        <parent link="zed_camera_center"/>
+        <child link="imu_link"/>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+    </joint>
+    <link name="imu_link">
+        <inertial>
+            <mass value="0.25"/>
+            <inertia ixx="0.0416666666667" ixy="0.0" ixz="0.0" iyy="0.0416666666667" iyz="0.0" izz="0.0416666666667"/>
+        </inertial>
+    </link>
+
+
+</robot>

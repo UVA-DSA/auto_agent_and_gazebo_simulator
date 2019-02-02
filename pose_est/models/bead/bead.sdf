@@ -1,0 +1,46 @@
+<?xml version="1.0" ?>
+<sdf version="1.5">
+    <model name="bead">
+        <static>false</static>
+        <link name="link">
+            <gravity>0</gravity>
+            <pose>0.15 0 0 0 0 0</pose>
+            <inertial>
+                <mass>0.1</mass>
+                <inertia>
+                    <ixx>0.000250308</ixx>
+                    <ixy>0.0</ixy>
+                    <ixz>0.0</ixz>
+                    <iyy>0.000250308</iyy>
+                    <iyz>0.0</iyz>
+                    <izz>0.0004802</izz>
+                </inertia>
+            </inertial>
+            <collision name="collision">
+                <!-- <pose>0 0 0.0175 0 0 0</pose> -->
+                <geometry>
+                    <mesh>
+                        <scale>0.0005 0.0005 0.0005</scale>
+                        <uri>model://bead/long_bead.dae</uri>
+                    </mesh>
+                </geometry>
+                <surface>
+                    <friction>
+                        <ode>
+                            <mu>0.5</mu>
+                            <mu2>0.5</mu2>
+                        </ode>
+                    </friction>
+                </surface>
+            </collision>
+            <visual name="visual">
+                <geometry>
+                    <mesh>
+                        <scale>0.0005 0.0005 0.0005</scale>
+                        <uri>model://bead/long_bead.dae</uri>
+                    </mesh>
+                </geometry>
+            </visual>
+        </link>
+    </model>
+</sdf>

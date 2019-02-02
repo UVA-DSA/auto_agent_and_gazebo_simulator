@@ -1,0 +1,21 @@
+
+
+# bead_camera.launch
+<!-- Load the URDF into the ROS Parameter Server -->
+    <param name="robot_description" command="$(find xacro)/xacro.py '$(find pose_est)/urdf/camera.xacro'" />
+
+     <material name="light_grey">
+        <color rgba="0 0 0 0.9"/>
+    </material>
+
+
+    <gazebo reference="zed_camera_center">
+        <static>true</static>
+    </gazebo>
+
+# bead.world
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+
+rosservice call /gazebo/set_model_state '{model_state: { model_name: bead, pose: { position: { x: 0.20, y: 0 ,z: 0 }, orientation: {x: 0, y: 0, z: 0, w: 0 } }, twist: { linear: {x: 0.0 , y: 0 ,z: 0 } , angular: { x: 0.0 , y: 0 , z: 0.0 } } , reference_frame: world } }'

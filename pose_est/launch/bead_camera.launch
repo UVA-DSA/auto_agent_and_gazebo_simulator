@@ -1,0 +1,29 @@
+<launch>
+
+    <!-- these are the arguments you can pass this launch file, for example paused:=true -->
+    <arg name="paused" default="false"/>
+    <arg name="use_sim_time" default="false"/> <!-- not sure the function -->
+    <arg name="gui" default="true"/>
+    <arg name="debug" default="false"/>
+    <arg name="verbose" default="true"/>
+    <arg name="physics" default="ode"/>
+
+
+    <!-- We inherit most of the necessary functionality from empty_world.launch.
+        The only parameter we change is the `world_name` parameter, substituting the `empty_world.launch'
+        with `bead.world`.
+        To make gazebo find the models, below path should be added -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(find pose_est)/worlds/sun.world"/>
+        <env name="GAZEBO_MODEL_PATH" value="$(find pose_est)/models" />
+        <arg name="debug" value="$(arg debug)" />
+        <arg name="gui" value="$(arg gui)" />
+        <arg name="paused" value="$(arg paused)"/>
+        <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+        <arg name="verbose" value="$(arg verbose)"/>
+        <arg name="physics" value="$(arg physics)"/>
+    </include>
+    
+    <!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF robot -->
+    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" args="-file $(find pose_est)/urdf/zedm.urdf -urdf -model zedm" />
+</launch>
