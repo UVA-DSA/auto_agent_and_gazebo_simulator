@@ -27,6 +27,9 @@ The code absolutely set the status of the robot.
 # raven2
 The UW r2_control code
 
+# pose_est
+for pose estimation of object, instrment graspers and their relations.
+
 # zed-ros-wrapper
 functions for zed camera
 
