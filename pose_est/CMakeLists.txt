@@ -11,7 +11,15 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  gazebo_ros
+  gazebo_msgs
+  geometry_msgs
+  message_generation
+  cv_bridge
+  image_transport
 )
+
+find_package(OpenCV)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -71,6 +79,7 @@ find_package(catkin REQUIRED COMPONENTS
 # generate_messages(
 #   DEPENDENCIES
 #   std_msgs
+#   geometry_msgs
 # )
 
 ################################################
@@ -105,8 +114,9 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES pose_est
-#  CATKIN_DEPENDS roscpp rospy std_msgs
+  CATKIN_DEPENDS roscpp rospy std_msgs cv_bridge image_transport
 #  DEPENDS system_lib
+  DEPENDS message_runtime
 )
 
 ###########
@@ -116,8 +126,9 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-# include
+  include
   ${catkin_INCLUDE_DIRS}
+  ${OpenCV_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
@@ -149,6 +160,11 @@ include_directories(
 # target_link_libraries(${PROJECT_NAME}_node
 #   ${catkin_LIBRARIES}
 # )
+
+add_executable(bead_projection src/bead_projection.cpp)
+target_link_libraries(bead_projection ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${OpenCV_LIBRARIES})
+add_dependencies(bead_projection ${catkin_EXPORTED_TARGETS})
+
 
 #############
 ## Install ##
